@@ -6,26 +6,30 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from database import get_db
 from modelos import Usuario
+import os
+from dotenv import load_dotenv
 
-#configuracion
-SECRET_KEY = "tu_clave_secreta_muy_larga_Y_segura"
-ALGORITHM = "HS256"
-EXPIRE_MINUTES = 30
+load_dotenv()
 
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITHM")
+EXPIRE_MINUTES = int(os.getenv("EXPIRE_MINUTES"))
 
 
 pwd_context = CryptContext (schemes = ["bcrypt"], deprecated = "auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 #                                               ↑ ruta del login
 
-def utcnow() -> datetime :
-    return datetime.now(timezone.utc)
 
 def hashear_password(password: str) -> str:
     return pwd_context.hash(password)
 
 def verificar_password(password: str, hashed: str) -> bool:
     return pwd_context.verify(password, hashed)
+
+
+def utcnow() -> datetime :
+    return datetime.now(timezone.utc)
 
 def crear_token(data: dict) -> str:
     datos = data.copy()
@@ -55,3 +59,4 @@ def obtener_usuario_actual(
         raise credenciales_exception
     return usuario
 
+print (EXPIRE_MINUTES)
