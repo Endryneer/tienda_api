@@ -15,6 +15,8 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
 EXPIRE_MINUTES = int(os.getenv("EXPIRE_MINUTES"))
 
+if not SECRET_KEY:
+    raise RuntimeError("Falta SECRET_KEY en las variables de entorno")
 
 pwd_context = CryptContext (schemes = ["bcrypt"], deprecated = "auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
@@ -59,4 +61,3 @@ def obtener_usuario_actual(
         raise credenciales_exception
     return usuario
 
-print (EXPIRE_MINUTES)
