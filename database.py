@@ -8,7 +8,20 @@ from dotenv import load_dotenv
 load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+
+if not DATABASE_URL:
+    raise RuntimeError("Falta DATABASE_URL en las variables de entorno")
+
+if DATABASE_URL.startswith("sqlite"):
+    connect_args = {"check_same_thread": False}
+
+else:
+    connect_args = {}    
+
+
+
+engine = create_engine(DATABASE_URL, connect_args = connect_args)
+
 # connect_args es necesario solo para SQLite
 
 SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
@@ -23,7 +36,3 @@ def get_db():
         yield db        # ← entrega la sesión a quien la pida
     finally:
         db.close()      # ← la cierra cuando termina la petición
-
-        
-
-print(DATABASE_URL)
