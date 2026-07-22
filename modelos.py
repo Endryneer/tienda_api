@@ -12,6 +12,7 @@ class Producto(Base):
     stock      = Column(Integer, nullable=False)
     categoria  = Column(String, nullable=False)
     disponible = Column(Boolean, default=True)
+    descripcion = Column(String, nullable=True)
 
 
 

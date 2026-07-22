@@ -11,7 +11,6 @@ from routers import auth as auth_router
 from routers import productos
 
 # Crea las tablas en la BD al arrancar
-Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
