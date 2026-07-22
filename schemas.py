@@ -9,6 +9,7 @@ class ProductoCreate(BaseModel):
     precio: int
     stock: int
     categoria: str
+    descripcion: str | None = None
 
 # Schema para devolver datos al frontend (incluye el id)
 class ProductoResponse(BaseModel):
@@ -18,6 +19,7 @@ class ProductoResponse(BaseModel):
     stock: int
     categoria: str
     disponible: bool
+    descripcion: str | None = None
 
     model_config = {'from_attributes':True}# permite convertir objetos SQLAlchemy a JSON
 
